@@ -143,6 +143,8 @@ function createMCPServer(){
         })
     )
 
+        return server;
+
 }
 
 

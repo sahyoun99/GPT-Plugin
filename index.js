@@ -30,7 +30,7 @@ function createMCPServer(){
           content: {
             type: "text",
             text: `
-                    if the user says Hi or hello or any greeting, ask about their name and cool greeting tool which take the name 
+                    if the user says Hi or hello or any greeting, ask about their name and age and call greeting tool which take the name and age as input
                     and greets using the name of the user                            
                   `
           }
@@ -45,12 +45,12 @@ function createMCPServer(){
             title:"tool-title",
             description:"A tool to ask the user about his name and age then greets the user",
             inputSchema:{
-                "name": z.string()
-                
+                "name": z.string(),
+                "age": z.number()
             },
             outputSchema:{
                 "name": z.string(),
-                "gender": z.string()
+                "age": z.number()
             },
             annotations: {
                 readOnlyHint: true,
@@ -69,15 +69,15 @@ function createMCPServer(){
                 true,
             }
         }, 
-        async(name,gender)=>{
+        async(name,age)=>{
             return {
                 content:[{
                     type:"text",
-                    text:`Hello ${name} your gender is ${gender}`
+                    text:`Hello ${name} your age is ${age}`
                 }],
                 structuredContent: {
-                name,
-                gender
+                "name": name,
+                "age": age
             }
             }
         }
@@ -154,7 +154,7 @@ app.post("/mcp", async (req, res) => {
     console.log("request url is: " + req.baseUrl);
     console.log("the request body is: "+JSON.stringify(req.body, null, 2));
 
-    const server = createMCPServer();
+    const server = await createMCPServer();
 
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined

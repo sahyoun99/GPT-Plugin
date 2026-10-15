@@ -83,7 +83,7 @@ function createMCPServer(){
         }
     )
 
-    server.registerPrompt(
+    server.registerResource(
         'greeting-widget',
         "ui://widget/greeting",
         {},

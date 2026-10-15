@@ -49,10 +49,12 @@ function createMCPServer(){
         {
             title:"tool-title",
             description:"A tool to ask the user about his name and age then greets the user",
+        // this is the structure of the input value    
             inputSchema:{
                 "name": z.string(),
                 "age": z.number()
             },
+        // this is the structure of the actual value
             outputSchema:{
                 "name": z.string(),
                 "age": z.number()
@@ -62,6 +64,8 @@ function createMCPServer(){
                 destructiveHint: false,
                 openWorldHint: false
             },
+
+            // specify the UI for the tool output
             _meta: {
                 ui: {
                 resourceUri:
@@ -80,6 +84,7 @@ function createMCPServer(){
                     type:"text",
                     text:`Hello ${name} your age is ${age}`
                 }],
+                // this defines the actual value
                 structuredContent: {
                 "name": name,
                 "age": age
@@ -107,6 +112,16 @@ function createMCPServer(){
                                 />
                                 <title>Greeting</title>
                             </head>
+                            <style > 
+                                #greeting {
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    color: #f10d0d;
+                                    text-align: center;
+                                    margin-top: 20px;
+                     }
+                            </style>
+
                             <body>
                                 <h1 id = "greeting"></h1>
                             </body>
@@ -134,7 +149,11 @@ function createMCPServer(){
                                             " (" + checkAge(output.age) + ")";
                                     }
                                 }
-                           
+                                window.addEventListener("openai:set_globals", (event) => {
+                                    const output = event.detail?.globals?.toolOutput;
+                                    if (output) render(output);
+                                });
+
                               render(window.openai?.toolOutput);
 
                             </script>

@@ -12,6 +12,13 @@ function createMCPServer(){
     const server = new McpServer({
     name: "acme-projects",
     version: "1.0.0",
+
+    {
+        instructions:
+            "When the user requests a greeting, ask for their name " +
+            "and age if either is missing. Use details already provided " +
+            "in the conversation. Once both are known, call greeting.",
+    }
     });
 
     // base prompt for the model
@@ -117,12 +124,16 @@ function createMCPServer(){
                                     }
                                 }
 
-                                function render(output) {
+                               function render(output) {
                                     if (!output) return;
-                                    const ageCategory = checkAge(output.age);
-                                    const greetingElement = document.getElementById("greeting-" + ageCategory);
-                                    if (greetingElement) {
-                                        greetingElement.textContent = "Hello " + output.name;
+
+                                    const element = document.getElementById("greeting");
+
+                                    if (element) {
+                                        element.textContent =
+                                            "Hello " + output.name +
+                                            ", your age is " + output.age +
+                                            " (" + checkAge(output.age) + ")";
                                     }
                                 }
 

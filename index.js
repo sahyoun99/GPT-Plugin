@@ -12,14 +12,14 @@ function createMCPServer(){
     const server = new McpServer({
     name: "acme-projects",
     version: "1.0.0",
-
+    },
     {
         instructions:
             "When the user requests a greeting, ask for their name " +
             "and age if either is missing. Use details already provided " +
             "in the conversation. Once both are known, call greeting.",
     }
-    });
+);
 
     // base prompt for the model
     server.registerPrompt(
@@ -27,8 +27,6 @@ function createMCPServer(){
         {
             title: 'assistant',
             description: ""
-
-
         }, 
         async ()=>({
             messages: [
@@ -124,7 +122,7 @@ function createMCPServer(){
                                     }
                                 }
 
-                               function render(output) {
+                                function render(output) {
                                     if (!output) return;
 
                                     const element = document.getElementById("greeting");
@@ -136,7 +134,6 @@ function createMCPServer(){
                                             " (" + checkAge(output.age) + ")";
                                     }
                                 }
-
                                 window.addEventListener("openai:set_globals", (event) => {
                                     const output = event.detail?.globals?.toolOutput;
                                     if (output) render(output);

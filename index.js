@@ -101,7 +101,7 @@ function createMCPServer(){
                                     content="width=device-width,initial-scale=1,viewport-fit=cover"
                                 />
                                 <title>Greeting</title>
-                            <head/>
+                            </head>
                             <body>
                                 <h1 id = "greeting"></h1>
                             </body>

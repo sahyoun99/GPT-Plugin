@@ -146,20 +146,30 @@ function createMCPServer(){
 }
 
 
-app.post('/mcp', async (req, res) => {
+app.post("/mcp", async (req, res) => {
+  try {
+    console.log("Incoming MCP request body:");
+    console.log("request url is: " + req.baseUrl);
+    console.log("the request body is: "+JSON.stringify(req.body, null, 2));
+
     const server = createMCPServer();
 
     const transport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined
-    });
-
-    res.on('close', () => {
-        transport.close();
-        server.close();
+      sessionIdGenerator: undefined
     });
 
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
+  } catch (err) {
+    console.error("MCP error:", err);
+
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: "MCP error",
+        message: err.message
+      });
+    }
+  }
 });
 
 app.listen(port, ()=>{

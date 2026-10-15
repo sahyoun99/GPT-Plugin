@@ -134,11 +134,7 @@ function createMCPServer(){
                                             " (" + checkAge(output.age) + ")";
                                     }
                                 }
-                                window.addEventListener("openai:set_globals", (event) => {
-                                    const output = event.detail?.globals?.toolOutput;
-                                    if (output) render(output);
-                                });
-
+                           
                               render(window.openai?.toolOutput);
 
                             </script>

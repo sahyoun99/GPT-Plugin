@@ -111,8 +111,7 @@ function createMCPServer(){
                                     content="width=device-width,initial-scale=1,viewport-fit=cover"
                                 />
                                 <title>Greeting</title>
-                            </head>
-                            <style > 
+                                         <style > 
                                 #greeting {
                                     font-size: 24px;
                                     font-weight: bold;
@@ -121,6 +120,8 @@ function createMCPServer(){
                                     margin-top: 20px;
                      }
                             </style>
+                            </head>
+                   
 
                             <body>
                                 <h1 id = "greeting"></h1>

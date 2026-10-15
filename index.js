@@ -146,15 +146,21 @@ function createMCPServer(){
 }
 
 
-app.get('/mcp',async (req,res)=>{
-    const server = createMCPServer()
+app.post('/mcp', async (req, res) => {
+    const server = createMCPServer();
+
     const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined
+        sessionIdGenerator: undefined
+    });
+
+    res.on('close', () => {
+        transport.close();
+        server.close();
     });
 
     await server.connect(transport);
-    await transport.handleRequest(req, res, req.body)
-})
+    await transport.handleRequest(req, res, req.body);
+});
 
 app.listen(port, ()=>{
     console.log("server running on port: ", port)

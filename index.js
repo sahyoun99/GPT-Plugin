@@ -69,7 +69,7 @@ function createMCPServer(){
                 true,
             }
         }, 
-        async(name,age)=>{
+        async({name,age})=>{
             return {
                 content:[{
                     type:"text",

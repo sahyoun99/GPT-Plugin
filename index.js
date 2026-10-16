@@ -223,7 +223,7 @@ server.registerTool(
 
 }
 
-app.registerResource(
+server.registerResource(
     'favsport',
     'ui://widget//favsport',
     {},

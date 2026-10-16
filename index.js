@@ -173,12 +173,15 @@ function createMCPServer(){
 server.registerTool(
     'check_favorite_sport',
     {
-        description:"this tool is to find out the favorite sports of a person by asking them about their gender",
-        inputSchema:{
+description:
+    "Returns predefined sports suggestions based on gender. " +
+    "Call this tool when the user provides their gender. " +
+    "If gender is missing, ask for it.",
+           inputSchema:{
             gender: z.string()
         },
         outputSchema:{
-            sports:z.array()
+             sports: z.array(z.string())
         }
         ,
         annotations: {

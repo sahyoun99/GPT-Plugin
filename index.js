@@ -251,7 +251,7 @@ server.registerResource(
 
                             for(const sport of sports){
                                 var h1 = document.createElement('h1')
-                                h1.textContent(sport)
+                                h1.textContent = sport
                                 favsport.appendChild(h1)
                             }
 

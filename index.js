@@ -1,6 +1,6 @@
 import express from 'express'
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
+import { toLowerCase, z } from "zod";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 
 
@@ -167,10 +167,105 @@ function createMCPServer(){
         })
     )
 
+
+server.registerTool(
+    'check favorite sport',
+    {
+        description:"this tool is to find out the favorite sports of a person by asking them about their gender",
+        inputSchema:{
+            gender: z.string()
+        },
+        outputSchema:{
+            sports:z.array()
+        }
+        ,
+        annotations: {
+                readOnlyHint: true,
+                destructiveHint: false,
+                openWorldHint: false
+            },
+
+            // specify the UI for the tool output
+            _meta: {
+                ui: {
+                resourceUri:
+                    "ui://widget/favsport"
+                },
+
+                "openai/outputTemplate":
+                "ui://widget/favsport",
+                "openai/widgetAccessible":
+                true,
+            }
+    },
+    async ({gender})=>{
+        let sports =[]
+
+        if(gender.toLocaleLowerCase() === 'male'){
+            sports.push('football')
+            sports.push('soccer')
+            sports.push('basketball')
+
+        }else{
+            sports.push('pilates')
+            sports.push('tennis')
+
+        }
+        return{
+        structuredContent:{
+         'sports':sports,
+        }
+    }
+    }
+)
+    
         return server;
 
 }
 
+app.registerResource(
+    'favsport',
+    'ui://widget//favsport',
+    {},
+    async ()=>({
+        contents: [
+            {
+                    uri: "ui://widget/favsport",
+                    mimeType: "text/html;profile=mcp-app",
+                    text:`
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Document</title>
+                    </head>
+                    <body>
+                        <div id="favsport"></div>
+                    </body>
+                    <script>
+                        function render(){
+                            const output = window.openai?.toolOutput
+                            const favsport = document.getElementById('favsport')
+                            const sports = output.sports
+
+                            for(const sport of sports){
+                                var h1 = document.createElement('h1')
+                                h1.textContent(sport)
+                                favsport.appendChild(h1)
+                            }
+
+                        }
+                        render()
+
+                    </script>
+                    </html>
+                    `
+            }
+        ]
+    })
+
+)
 
 app.post("/mcp", async (req, res) => {
   try {

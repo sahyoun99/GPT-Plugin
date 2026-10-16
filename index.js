@@ -218,11 +218,6 @@ server.registerTool(
     }
     }
 )
-    
-        return server;
-
-}
-
 server.registerResource(
     'favsport',
     'ui://widget//favsport',
@@ -266,6 +261,12 @@ server.registerResource(
     })
 
 )
+
+        return server;
+
+}
+
+
 
 app.post("/mcp", async (req, res) => {
   try {

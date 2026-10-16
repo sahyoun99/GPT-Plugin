@@ -17,7 +17,7 @@ function createMCPServer(){
         instructions:
             "When the user requests a greeting, ask for their name " +
             "and age if either is missing. Use details already provided " +
-            "in the conversation. Once both are known, call greeting.", 
+            "in the conversation. Once both are known, call greeting."+
             'ask for gender then call favsport tool to determine their favorite sports '
     }
 );

@@ -225,7 +225,7 @@ description:
 )
 server.registerResource(
     'favsport',
-    'ui://widget//favsport',
+    'ui://widget/favsport',
     {},
     async ()=>({
         contents: [

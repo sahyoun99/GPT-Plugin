@@ -18,7 +18,7 @@ function createMCPServer(){
             "When the user requests a greeting, ask for their name " +
             "and age if either is missing. Use details already provided " +
             "in the conversation. Once both are known, call greeting."+
-            'ask for gender then call favsport tool to determine their favorite sports '
+            'ask for gender then call check_favorite_sport tool to determine their favorite sports '
     }
 );
 
@@ -38,7 +38,7 @@ function createMCPServer(){
             text: `
                     if the user says Hi or hello or any greeting, ask about their name and age and call greeting tool which take the name and age as input
                     and greets using the name of the user,
-                    Then ask about their gender and call favsport tool to determine their favorite sport                           
+                    Then ask about their gender and call check_favorite_sport tool to determine their favorite sport                           
                   `
           }
         }
@@ -171,7 +171,7 @@ function createMCPServer(){
 
 
 server.registerTool(
-    'check favorite sport',
+    'check_favorite_sport',
     {
         description:"this tool is to find out the favorite sports of a person by asking them about their gender",
         inputSchema:{

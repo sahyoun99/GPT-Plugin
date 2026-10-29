@@ -9,7 +9,7 @@ const getWeather = async (city) => {
     const location = geo.data.results?.[0];
 
     console.log(`Location data: ${JSON.stringify(location)}`);
-    if(location) {
+    if(!location) {
         throw new Error(`City not found: ${city}`);
     }
 

@@ -323,7 +323,7 @@ server.registerResource(
                 </head>
                 <body>
                     <h1>Weather Information</h1>
-                    h1 id="temperature"></h1>
+                    <h1 id="temperature"></h1>
                 </body>
 
                 <script>

@@ -13,6 +13,7 @@ const getWeather = async (city) => {
         throw new Error(`City not found: ${city}`);
     }
 
+    console.log(`Fetching weather for coordinates: ${location.latitude}, ${location.longitude}`);
     const weather = await axios.get(
     "https://api.open-meteo.com/v1/forecast",
     {
@@ -24,6 +25,8 @@ const getWeather = async (city) => {
       }
     }
   );    
+
+  console.log(`Weather data: ${JSON.stringify(weather.data)}`);
     return weather.data.current.temperature_2m;
 }
 

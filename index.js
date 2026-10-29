@@ -195,7 +195,9 @@ description:
             _meta: {
                 ui: {
                 resourceUri:
-                    "ui://widget/favsport"
+                    "ui://widget/favsport",
+
+
                 },
 
                 "openai/outputTemplate":
@@ -284,8 +286,12 @@ server.registerTool(
         _meta: {
             ui: {
             resourceUri:
-                "ui://widget/weather"
+                "ui://widget/weather",
             },
+                "openai/outputTemplate":
+                "ui://widget/weather",
+                "openai/widgetAccessible":
+                true,
         }
 
     }, async ({city})=>{

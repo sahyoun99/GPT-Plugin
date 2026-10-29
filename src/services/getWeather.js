@@ -6,7 +6,7 @@ const getWeather = async (city) => {
     const geo = await axios.get(`https://geocoding-api.open-meteo.com/v1/search`,{
         params: { name: city, count: 1 } 
     })
-    const location = geo.data.results?.[0];\
+    const location = geo.data.results?.[0];
 
     console.log(`Location data: ${JSON.stringify(location)}`);
     if(location) {

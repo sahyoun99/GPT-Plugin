@@ -2,7 +2,7 @@ import express from 'express'
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { toLowerCase, z } from "zod";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-
+import getWeather from "./src/services/getWeather.js";
 
 const app = express()
 const port = 3000
@@ -18,7 +18,8 @@ function createMCPServer(){
             "When the user requests a greeting, ask for their name " +
             "and age if either is missing. Use details already provided " +
             "in the conversation. Once both are known, call greeting."+
-            'ask for gender then call check_favorite_sport tool to determine their favorite sports '
+            'ask for gender then call check_favorite_sport tool to determine their favorite sports ' + 
+            "The user can also ask for the weather in a specific city, in which case you should call the get_weather tool with the city name as input.",
     }
 );
 
@@ -267,10 +268,75 @@ server.registerResource(
 
 )
 
+
+
+server.registerTool(
+    'get_weather',
+    {
+        description: "Returns the current weather for a given city.",
+        inputSchema:{
+            city:z.string()
+        },
+        outputSchema:{
+            temperature:z.number(),
+        },
+
+        _meta: {
+            ui: {
+            resourceUri:
+                "ui://widget/weather"
+            },
+        }
+
+    }, async ({city})=>{
+       const temrature = await getWeather(city)
+       return {
+        structuredContent:{
+            temperature:temrature
+        }
+       }
+    }
+)
+
+server.registerResource(
+    'weather',
+    'ui://widget/weather',
+    {},
+    async ()=>({
+        contents: [
+            {
+                uri: "ui://widget/weather",
+                mimeType: "text/html;profile=mcp-app",
+                text:`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                </head>
+                <body>
+                    <h1>Weather Information</h1>
+                    h1 id="temperature"></h1>
+                </body>
+
+                <script>
+                    function render(){
+                        const output = window.openai?.toolOutput
+                        const temperature = document.getElementById('temperature')
+                        temperature.textContent = output.temperature
+                    }
+                    render()
+                </script>
+                </html>
+                `
+            }
+        ]
+    })
+)
         return server;
 
 }
-
 
 
 app.post("/mcp", async (req, res) => {

@@ -327,12 +327,17 @@ server.registerResource(
                 </body>
 
                 <script>
-                    function render(){
-                        const output = window.openai?.toolOutput
-                        const temperature = document.getElementById('temperature')
-                        temperature.textContent = output.temperature
-                    }
-                    render()
+                     window.addEventListener(
+                                "openai:set_globals",
+                                (event) => {
+                                    render(
+                                        event.detail?.globals?.toolOutput
+                                        ?? window.openai?.toolOutput
+                                    );
+                                }
+                            );
+
+                            render(window.openai?.toolOutput);
                 </script>
                 </html>
                 `

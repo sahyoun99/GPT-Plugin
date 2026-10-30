@@ -6,7 +6,7 @@ console.log(`converting ${amount}${from} to ${to}`)
 const data = axios.get(`https://api.frankfurter.dev/v2/rate/${from}/${to}`,
     {timeout:10000}
 )
-
+console.log("currnecy object: " + JSON.stringify(data))
 return amount * data.rate
 
 
